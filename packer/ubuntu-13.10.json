@@ -17,7 +17,7 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=vagrant<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/http/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu/preseed.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -25,7 +25,7 @@
       "disk_size": 40960,
       "format": "qcow2",
       "headless": "false",
-      "http_directory": "ubuntu",
+      "http_directory": "http",
       "iso_checksum": "5dd72c694c3a7e06a3b4dd651ca26cfc70985004",
       "iso_checksum_type": "sha1",
       "iso_url": "{{user `iso_mirror`}}/ubuntu-13.10-server-amd64.iso",
