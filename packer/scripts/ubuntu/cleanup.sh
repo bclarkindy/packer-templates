@@ -17,7 +17,7 @@ dpkg --list | awk '{ print $2 }' | grep linux-source | xargs apt-get -y purge
 dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | xargs apt-get -y purge
 
 # delete compilers and other development tools
-apt-get -y purge cpp gcc g++
+apt-get -y purge cpp gcc g++ build-essential
 
 # delete X11 libraries
 apt-get -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6
@@ -32,3 +32,17 @@ apt-get -y autoremove
 apt-get -y clean
 rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
 rm -f /tmp/chef*deb
+
+# Log files
+# ------------------------------
+find /var/log -type f | while read f; do echo -ne '' > $f; done;
+
+# Bash history
+# ------------------------------
+unset $HISTFILE
+rm -f /root/.bash_history
+rm -f /home/vagrant/.bash_history
+
+# Wait (othwerise Packer will cry)
+# ------------------------------
+sync
