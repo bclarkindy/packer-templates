@@ -1,0 +1,65 @@
+{
+  "builders": [
+    {
+      "accelerator": "kvm",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer/locale=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " keyboard-configuration/layoutcode=us<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 40960,
+      "format": "qcow2",
+      "headless": "false",
+      "http_directory": "ubuntu",
+      "iso_checksum": "2af1c223f586f59237212bb9c06ad774673c8952",
+      "iso_checksum_type": "sha1",
+      "iso_url": "{{user `iso_mirror`}}/ubuntu-13.04-server-amd64.iso",
+      "output_directory": "packer-ubuntu-13.04-qemu",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -P now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "qemu",
+      "vm_name": "packer-ubuntu-13.04-amd64"
+    }
+  ],
+  "provisioners": [
+    {
+      "environment_vars": [
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo 'vagrant'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "ubuntu/update.sh",
+        "common/sshd.sh",
+        "ubuntu/networking.sh",
+        "ubuntu/sudoers.sh",
+        "common/vagrant.sh",
+        "common/chef.sh",
+        "ubuntu/deep-clean.sh",
+        "common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "chef_version": "provisionerless",
+    "iso_mirror": "http://releases.ubuntu.com"
+  }
+}
