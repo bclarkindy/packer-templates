@@ -52,7 +52,7 @@
         "ubuntu/sudoers.sh",
         "common/vagrant.sh",
         "common/chef.sh",
-        "ubuntu/deep-clean.sh",
+        "ubuntu/cleanup.sh",
         "common/minimize.sh"
       ],
       "type": "shell"
