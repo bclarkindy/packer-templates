@@ -33,6 +33,6 @@ Vagrant.configure("2") do |config|
 end
 EOF
 
-qemu-img convert -O qcow2 $file box.img
+qemu-img convert -p -O qcow2 $file box.img
 tar cvzf $box_name metadata.json Vagrantfile box.img
 rm -rf metadata.json Vagrantfile box.img $file
